@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace StudentVoiceNU.Domain.Entities
+namespace Domain.Entities
 {
     public abstract class BaseEntity
     {
