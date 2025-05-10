@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace StudentVoiceNU.Infrastructure.Repositories
 {
-    public class BaseRepository<T>(LearnEdge context) : IBaseRepository<T> where T : BaseEntity
+    public class BaseRepository<T>(LearnEdgeDbContext context) : IBaseRepository<T> where T : BaseEntity
     {
-        private readonly LearnEdge _context = context ?? throw new ArgumentNullException(nameof(context));
+        private readonly LearnEdgeDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
         private readonly DbSet<T> _table = context.Set<T>();
 
         public async Task<T> Create(T entity)
