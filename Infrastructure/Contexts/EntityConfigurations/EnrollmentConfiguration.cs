@@ -1,34 +1,31 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Domain.Entities;  
+using Domain.Entities;
 
-public class EnrollmentConfiguration : IEntityTypeConfiguration<Enrollment>
+namespace Infrastructure.Contexts.EntityConfigurations
 {
-    public void Configure(EntityTypeBuilder<Enrollment> builder)
+    public class EnrollmentConfiguration : IEntityTypeConfiguration<Enrollment>
     {
-        builder.HasKey(e => e.Id);
+        public void Configure(EntityTypeBuilder<Enrollment> builder)
+        {
+            builder.Property(e => e.EnrollmentDate).IsRequired();
+            builder.Property(e => e.Status).IsRequired();
+            builder.Property(e => e.Progress).HasPrecision(5, 2);
+            builder.Property(e => e.CertificateUrl).HasMaxLength(500);
 
-        builder.Property(e => e.IsPaid).IsRequired();
-        builder.Property(e => e.CreatedAt).IsRequired();
-
-        builder.HasOne(e => e.Student)
-                .WithMany(s => s.Enrollments)
+            // Configure relationships
+            builder.HasOne(e => e.Student)
+                .WithMany()
                 .HasForeignKey(e => e.StudentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(e => e.Course)
+            builder.HasOne(e => e.Course)
                 .WithMany(c => c.Enrollments)
                 .HasForeignKey(e => e.CourseId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(e => e.QRCodeValidation)
-                .WithOne(q => q.Enrollment)
-                .HasForeignKey<QRCodeValidation>(q => q.EnrollmentId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasOne(e => e.Progress)
-                .WithOne(p => p.Enrollment)
-                .HasForeignKey<Progress>(p => p.EnrollmentId)
-                .OnDelete(DeleteBehavior.Cascade);
+            // Configure soft delete
+            builder.HasQueryFilter(e => !e.IsDeleted);
+        }
     }
 }

@@ -2,19 +2,25 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Domain.Entities;
 
-public class SessionConfiguration : IEntityTypeConfiguration<Session>
+namespace Infrastructure.Contexts.EntityConfigurations
 {
-    public void Configure(EntityTypeBuilder<Session> builder)
+    public class SessionConfiguration : IEntityTypeConfiguration<Session>
     {
-        builder.HasKey(s => s.Id);
+        public void Configure(EntityTypeBuilder<Session> builder)
+        {
+            builder.Property(s => s.Title).IsRequired().HasMaxLength(100);
+            builder.Property(s => s.Description).IsRequired().HasMaxLength(500);
+            builder.Property(s => s.Status).IsRequired();
+            builder.Property(s => s.RecordingUrl).HasMaxLength(500);
 
-        builder.Property(s => s.SessionName).IsRequired();
-        builder.Property(s => s.Description).IsRequired();
-        builder.Property(s => s.SessionType).IsRequired();
-        builder.Property(s => s.ContentUrl).IsRequired();
-
-        builder.HasOne(s => s.Course)
+            // Configure relationships
+            builder.HasOne(s => s.Course)
                 .WithMany(c => c.Sessions)
-                .HasForeignKey(s => s.CourseId);
+                .HasForeignKey(s => s.CourseId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure soft delete
+            builder.HasQueryFilter(s => !s.IsDeleted);
+        }
     }
 }
