@@ -22,8 +22,6 @@ namespace Domain.Entities
         [Required]
         public SessionStatus Status { get; set; }
 
-        public string? MeetingLink { get; set; }
-
         public string? RecordingUrl { get; set; }
 
         public int TotalAttendees { get; set; }

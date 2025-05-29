@@ -8,12 +8,12 @@ namespace Domain.Entities
     public class User : BaseEntity
     {
         [Required]
-        [StringLength(100)]
-        public string FullName { get; set; } = null!;
+        [StringLength(50)]
+        public string FName { get; set; } = null!;
 
         [Required]
         [StringLength(50)]
-        public string FName { get; set; } = null!;
+        public string MName { get; set; } = null!;
 
         [Required]
         [StringLength(50)]
@@ -53,15 +53,6 @@ namespace Domain.Entities
 
         [Required]
         public DateTime DateOfBirth { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string City { get; set; } = null!;
-
-        [Required]
-        [StringLength(50)]
-        public string Governorate { get; set; } = null!;
-
         public Teacher? Teacher { get; set; }
         public Student? Student { get; set; }
 

@@ -14,8 +14,6 @@ namespace Domain.Entities
 
         public int YearsOfExperience { get; set; }
 
-        public double Rating { get; set; }
-
         public bool IsVerified { get; set; }
 
         public string ProfilePictureUrl { get; set; } = null!;
