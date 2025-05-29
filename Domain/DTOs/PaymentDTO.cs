@@ -1,10 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Domain.Enums;
-using Domain.ValueObjects;
+using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities
+namespace Domain.DTOs
 {
-    public class Payment : BaseEntity
+    public class PaymentDTO : BaseDto
     {
         [Required]
         public Guid StudentId { get; set; }
@@ -13,14 +11,15 @@ namespace Domain.Entities
         public Guid CourseId { get; set; }
 
         [Required]
-        public Money Amount { get; set; } = null!;
+        public decimal Amount { get; set; }
 
         [Required]
         [StringLength(50)]
         public string PaymentMethod { get; set; } = null!;
 
         [Required]
-        public PaymentStatus Status { get; set; }
+        [StringLength(50)]
+        public string Status { get; set; } = null!; // Pending, Completed, Failed, Refunded
 
         [Required]
         [StringLength(100)]
@@ -30,8 +29,7 @@ namespace Domain.Entities
 
         public DateTime? PaidAt { get; set; }
 
-        public Student Student { get; set; } = null!;
-        public Course Course { get; set; } = null!;
+        public string StudentName { get; set; } = null!;
+        public string CourseTitle { get; set; } = null!;
     }
-}
-
+} 

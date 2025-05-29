@@ -1,35 +1,82 @@
-﻿namespace Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
+using System.Text;
+using Domain.ValueObjects;
+
+namespace Domain.Entities
 {
     public class User : BaseEntity
     {
+        [Required]
+        [StringLength(100)]
         public string FullName { get; set; } = null!;
-        public string FName { get; set; } = null!;
-        public string LName { get; set; } = null!;
-        public string Email { get; set; } = null!;
-        public string PasswordHash { get; set; } = null!;
-        public string PhoneNumber { get; set; } = null!;
-        public string Gender { get; set; } = null!;
-        public string Address { get; set; } = null!;
-        public string Role { get; set; } = null!;
-        public string AuthProvider { get; set; } = null!;
-        public string AuthProviderId { get; set; } = null!;
-        public DateTime CreatedAt { get; set; }
 
-        
-        public DateTime DateOfBirth { get; set; } 
+        [Required]
+        [StringLength(50)]
+        public string FName { get; set; } = null!;
+
+        [Required]
+        [StringLength(50)]
+        public string LName { get; set; } = null!;
+
+        [Required]
+        [EmailAddress]
+        [StringLength(100)]
+        public string Email { get; set; } = null!;
+
+        [Required]
+        public string PasswordHash { get; set; } = null!;
+
+        [Required]
+        [Phone]
+        [StringLength(20)]
+        public string PhoneNumber { get; set; } = null!;
+
+        [Required]
+        [StringLength(10)]
+        public string Gender { get; set; } = null!;
+
+        [Required]
+        public Address Address { get; set; } = null!;
+
+        [Required]
+        [StringLength(20)]
+        public string Role { get; set; } = null!;
+
+        [Required]
+        [StringLength(50)]
+        public string AuthProvider { get; set; } = null!;
+
+        [Required]
+        [StringLength(100)]
+        public string AuthProviderId { get; set; } = null!;
+
+        [Required]
+        public DateTime DateOfBirth { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string City { get; set; } = null!;
+
+        [Required]
+        [StringLength(50)]
         public string Governorate { get; set; } = null!;
 
         public Teacher? Teacher { get; set; }
         public Student? Student { get; set; }
+
         public void SetPassword(string password)
         {
             PasswordHash = HashPassword(password);
         }
+
         private string HashPassword(string password)
         {
-            
-            return password; 
+            using (var sha256 = SHA256.Create())
+            {
+                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return Convert.ToBase64String(hashedBytes);
+            }
         }
     }
 }

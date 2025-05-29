@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities
+namespace Domain.DTOs
 {
-    public class Session : BaseEntity
+    public class SessionDTO : BaseDto
     {
+        [Required]
+        public Guid CourseId { get; set; }
+
         [Required]
         [StringLength(100)]
         public string Title { get; set; } = null!;
@@ -20,7 +22,8 @@ namespace Domain.Entities
         public DateTime EndTime { get; set; }
 
         [Required]
-        public SessionStatus Status { get; set; }
+        [StringLength(50)]
+        public string Status { get; set; } = null!; // Scheduled, In Progress, Completed, Cancelled
 
         public string? MeetingLink { get; set; }
 
@@ -28,8 +31,7 @@ namespace Domain.Entities
 
         public int TotalAttendees { get; set; }
 
-        [Required]
-        public Guid CourseId { get; set; }
-        public Course Course { get; set; } = null!;
+        public string CourseTitle { get; set; } = null!;
+        public string TeacherName { get; set; } = null!;
     }
-}
+} 

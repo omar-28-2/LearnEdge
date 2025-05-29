@@ -1,18 +1,29 @@
-﻿namespace Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+using Domain.Enums;
+
+namespace Domain.Entities
 {
-public class Enrollment : BaseEntity
-{
-    public bool IsPaid { get; set; }
-    public DateTime CreatedAt { get; set; }
+    public class Enrollment : BaseEntity
+    {
+        [Required]
+        public Guid StudentId { get; set; }
 
-    public Guid StudentId { get; set; }
-    public Student Student { get; set; } = null!;
+        [Required]
+        public Guid CourseId { get; set; }
 
-    public Guid CourseId { get; set; }
-    public Course Course { get; set; } = null!;
+        [Required]
+        public DateTime EnrollmentDate { get; set; }
 
-    public QRCodeValidation? QRCodeValidation { get; set; }
-    public Progress? Progress { get; set; }
-}
+        [Required]
+        public EnrollmentStatus Status { get; set; }
 
+        public DateTime? CompletionDate { get; set; }
+
+        public decimal Progress { get; set; }
+
+        public string? CertificateUrl { get; set; }
+
+        public Student Student { get; set; } = null!;
+        public Course Course { get; set; } = null!;
+    }
 }
