@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities
+namespace Domain.DTOs
 {
-    public class Course : BaseEntity
+    public class CourseDTO : BaseDto
     {
         [Required]
         [StringLength(100)]
@@ -13,7 +13,6 @@ namespace Domain.Entities
         public string Description { get; set; } = null!;
 
         [Required]
-        [Range(0, double.MaxValue)]
         public decimal Price { get; set; }
 
         [Required]
@@ -29,13 +28,11 @@ namespace Domain.Entities
 
         public bool IsActive { get; set; }
 
+        public int TotalEnrollments { get; set; }
+
         public double AverageRating { get; set; }
 
-        [Required]
         public Guid TeacherId { get; set; }
-        public Teacher Teacher { get; set; } = null!;
-
-        public ICollection<Session> Sessions { get; set; } = new List<Session>();
-        public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
+        public string TeacherName { get; set; } = null!;
     }
-}
+} 

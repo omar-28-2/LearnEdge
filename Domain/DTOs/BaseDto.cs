@@ -1,7 +1,9 @@
-namespace BaseDTo.Domain.DTOs
+namespace Domain.DTOs
 {
     public class BaseDto
     {
-        // it will be take asubset of any entity to use it in the service layer
+        public Guid Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }

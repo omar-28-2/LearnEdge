@@ -15,6 +15,4 @@
 
         public ICollection<Progress> Progress { get; set; } = new List<Progress>();
     }
-
-
 }

@@ -2,17 +2,23 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Domain.Entities;
 
-public class QRCodeValidationConfiguration : IEntityTypeConfiguration<QRCodeValidation>
+namespace Infrastructure.Contexts.EntityConfigurations
 {
-    public void Configure(EntityTypeBuilder<QRCodeValidation> builder)
+    public class QRCodeValidationConfiguration : IEntityTypeConfiguration<QRCodeValidation>
     {
-        builder.HasKey(q => q.Id);
+        public void Configure(EntityTypeBuilder<QRCodeValidation> builder)
+        {
+            builder.Property(q => q.QRCode).IsRequired().HasMaxLength(100);
+            builder.Property(q => q.IsValidated).IsRequired();
 
-        builder.Property(q => q.QRCode).IsRequired();
-        builder.Property(q => q.IsValidated).IsRequired();
+            // Configure relationships
+            builder.HasOne(q => q.Enrollment)
+                .WithMany()
+                .HasForeignKey(q => q.EnrollmentId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(q => q.Enrollment)
-                .WithOne(e => e.QRCodeValidation)
-                .HasForeignKey<QRCodeValidation>(q => q.EnrollmentId);
+            // Configure soft delete
+            builder.HasQueryFilter(q => !q.IsDeleted);
+        }
     }
 }
