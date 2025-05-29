@@ -34,7 +34,7 @@ namespace Application.Services
         {
             var course = _mapper.Map<Course>(courseDto);
             await _unitOfWork.Courses.AddAsync(course);
-            await _unitOfWork.CompleteAsync();
+            await _unitOfWork.SaveChangesAsync();
             return _mapper.Map<CourseDTO>(course);
         }
 
@@ -46,7 +46,7 @@ namespace Application.Services
 
             _mapper.Map(courseDto, course);
             _unitOfWork.Courses.Update(course);
-            await _unitOfWork.CompleteAsync();
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Guid id)
@@ -56,7 +56,7 @@ namespace Application.Services
                 throw new KeyNotFoundException($"Course with ID {id} not found");
 
             _unitOfWork.Courses.Remove(course);
-            await _unitOfWork.CompleteAsync();
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<CourseDTO>> GetCoursesByTeacherAsync(Guid teacherId)

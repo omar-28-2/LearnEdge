@@ -21,6 +21,7 @@ namespace Infrastructure.Contexts
         public DbSet<Payment> Payments { get; set; }
         public DbSet<QRCodeValidation> QRCodeValidations { get; set; }
         public DbSet<Progress> Progresses { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
