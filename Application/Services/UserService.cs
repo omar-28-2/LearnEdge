@@ -34,7 +34,7 @@ namespace Application.Services
         {
             var user = _mapper.Map<User>(userDto);
             await _unitOfWork.Users.AddAsync(user);
-            await _unitOfWork.CompleteAsync();
+            await _unitOfWork.SaveChangesAsync();
             return _mapper.Map<UserDTO>(user);
         }
 
@@ -46,7 +46,7 @@ namespace Application.Services
 
             _mapper.Map(userDto, user);
             _unitOfWork.Users.Update(user);
-            await _unitOfWork.CompleteAsync();
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Guid id)
@@ -56,7 +56,7 @@ namespace Application.Services
                 throw new KeyNotFoundException($"User with ID {id} not found");
 
             _unitOfWork.Users.Remove(user);
-            await _unitOfWork.CompleteAsync();
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<UserDTO> GetByEmailAsync(string email)

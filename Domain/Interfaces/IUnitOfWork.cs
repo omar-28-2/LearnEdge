@@ -6,6 +6,9 @@ namespace Domain.Interfaces
     {
         IUserRepository Users { get; }
         ICourseRepository Courses { get; }
-        Task<int> CompleteAsync();
+        Task<int> SaveChangesAsync();
+        Task BeginTransactionAsync();
+        Task CommitTransactionAsync();
+        Task RollbackTransactionAsync();
     }
 } 
